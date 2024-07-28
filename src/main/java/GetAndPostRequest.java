@@ -38,6 +38,13 @@ public class GetAndPostRequest {
                 .build();
 
             HttpResponse<String> response2 = client.send(request2, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response2.body());
+        if(response2.statusCode() > 299){
+            System.out.println("Помилка. Статус код: " + response2.statusCode());
+        } else {
+            List<Post> result = mapper.readValue(response2.body(), new TypeReference<List<Post>>() {});
+            for (Post data : result){
+                System.out.println(data.toString());
+            }
+        }
     }
 }
